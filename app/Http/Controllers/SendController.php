@@ -17,7 +17,7 @@ class SendController extends Controller
 
         $rand = randString();
 
-        $user = Member::where('name', $session)->where('code', $code)->first();
+        $user = Member::where('name', strtolower($session))->where('code', $code)->first();
 
         if(!$user){
             return [
@@ -26,7 +26,7 @@ class SendController extends Controller
             ];
         }
 
-        if(!str_contains($message, $session)){
+        if(!str_contains(strtolower($message), strtolower($session))){
             return [
                 'status' => false,
                 'messages' => 'User not found'                
@@ -57,7 +57,6 @@ class SendController extends Controller
 
         $message = $message . "
 
-Oleh : $session
 kodeRef: $code-$rand
 ";
 
