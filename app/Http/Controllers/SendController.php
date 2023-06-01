@@ -42,7 +42,7 @@ class SendController extends Controller
                         'text' => "Mohon maaf waktu berlangganan WA-Server anda telah habis!",
                     ],
                 ];
-    
+                $user->update(['notif_pj' => 1]);
                 $number_server = Device::inRandomOrder()->first();
                 $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $sendPj);
                 $res = json_decode($response->body());
