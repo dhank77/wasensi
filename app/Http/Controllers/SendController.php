@@ -56,7 +56,6 @@ class SendController extends Controller
         }
 
         $message = $message . "
-
 kodeRef: $code-$rand
 ";
 
