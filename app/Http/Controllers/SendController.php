@@ -28,11 +28,16 @@ class SendController extends Controller
 
         $res = json_decode($response->body());
 
+        $try = 1;
         if(property_exists($res, 'key')){
-            return true;
+            return [
+                'status' => true,
+                'number' => $number_server,
+                'try' => $try,
+            ];
         }
         if(property_exists($res, 'error')){
-            $send = [
+            $sendGagal = [
                 'jid' => "6282396151291@s.whatsapp.net",
                 'type' => "number",
                 'message' => [
@@ -41,10 +46,25 @@ class SendController extends Controller
             ];
             
             $number_server = Device::inRandomOrder()->where('id', '!=', $number_server->id)->first();
-            $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $send);
+            Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $sendGagal);
 
+            $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $send);
             $res = json_decode($response->body());
-            return false;
+
+            if(property_exists($res, 'key')){
+                $try += 1;
+                return [
+                    'status' => true,
+                    'number' => $number_server,
+                    'try' => $try,
+                ];
+            }
         }
+
+        return [
+            'status' => false,
+            'number' => $number_server,
+            'try' => $try,
+        ];
     }
 }
