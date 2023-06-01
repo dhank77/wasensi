@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Device;
+use App\Models\Member;
 use Illuminate\Support\Facades\Http;
 
 class SendController extends Controller
@@ -13,6 +14,36 @@ class SendController extends Controller
         $receiver = request('receiver');
         $message = request('message');
         $code = request('code');
+
+        $rand = randString();
+
+        $user = Member::where('name', $session)->where('code', $code)->first();
+
+        if(!$user){
+            return [
+                'status' => false,
+                'messages' => 'User not exist'                
+            ];
+        }
+
+        if(!str_contains($message, $session)){
+            return [
+                'status' => false,
+                'messages' => 'User not found'                
+            ];
+        }
+
+        if(strtotime('now') > strtotime($user->expired_date)){
+            return [
+                'status' => false,
+                'messages' => 'Member is expired'                
+            ];
+        }
+
+        $message = $message . "
+
+kodeRef: $code-$rand
+";
 
         $send = [
             'jid' => format62($receiver) . "@s.whatsapp.net",
