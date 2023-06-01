@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
+            $table->string('no_pj')->nullable();
+            $table->tinyInteger('notif_pj')->nullable()->default(0);
             $table->date('expired_date');
             $table->timestamps();
         });

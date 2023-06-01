@@ -34,6 +34,21 @@ class SendController extends Controller
         }
 
         if(strtotime('now') > strtotime($user->expired_date)){
+            if($user->no_pj != "" && $user->notif_pj == 0){
+                $sendPj = [
+                    'jid' => format62($user->no_pj) . "@s.whatsapp.net",
+                    'type' => "number",
+                    'message' => [
+                        'text' => "Mohon maaf waktu berlangganan WA-Server anda telah habis!",
+                    ],
+                ];
+    
+                $number_server = Device::inRandomOrder()->first();
+                $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $sendPj);
+                $res = json_decode($response->body());
+            }
+
+
             return [
                 'status' => false,
                 'messages' => 'Member is expired'                
@@ -42,6 +57,7 @@ class SendController extends Controller
 
         $message = $message . "
 
+Oleh : $session
 kodeRef: $code-$rand
 ";
 

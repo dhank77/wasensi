@@ -32,7 +32,11 @@ class MemberController extends Controller
             'name' => 'required',
             'code' => 'required',
             'expired_date' => 'required',
+            'no_pj' => 'nullable',
+            'notif_pj' => 'nullable',
         ]);
+
+        $data['name'] = strtolower(request('name'));
 
         $id = request('id');
 

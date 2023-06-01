@@ -19,6 +19,8 @@
                                 <th scope="col">No</th>
                                 <th scope="col">Nama</th>
                                 <th scope="col">Code</th>
+                                <th scope="col">No Penanggung Jawab</th>
+                                <th scope="col">Notif PJ</th>
                                 <th scope="col">Expired Date</th>
                                 <th scope="col">Opsi</th>
                             </tr>
@@ -27,8 +29,10 @@
                             @foreach($members as $key => $member)
                                 <tr>
                                     <th scope="row">{{ $key + 1 }}</th>
-                                    <td>{{ $member->name }}</td>
+                                    <td>{{ ucwords($member->name) }}</td>
                                     <td>{{ $member->code }}</td>
+                                    <td>{{ $member->no_pj }}</td>
+                                    <td>{{ $member->notif_pj }}</td>
                                     <td>{{ ($member->expired_date) }}</td>
                                     <td>
                                         <a href="{{ route('member.edit', $member->id) }}" class="btn btn-sm btn-success">Edit</a>

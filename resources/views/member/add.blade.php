@@ -18,6 +18,14 @@
                             <input type="text" class="form-control" value="{{ $member->name }}" id="name" name="name" aria-describedby="name" placeholder="Enter Nama">
                         </div>
                         <div class="form-group mb-4">
+                            <label for="no_pj">No HP PJ</label>
+                            <input type="number" class="form-control" value="{{ $member->no_pj }}" id="no_pj" name="no_pj" aria-describedby="no_pj" placeholder="Enter No HP PJ">
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="notif_pj">Notif PJ</label>
+                            <input type="number" class="form-control" value="{{ $member->notif_pj }}" id="notif_pj" name="notif_pj" aria-describedby="notif_pj" placeholder="Enter Status">
+                        </div>
+                        <div class="form-group mb-4">
                             <label for="code">Code ID</label>
                             <input type="text" class="form-control" value="{{ $member->code }}" id="code" name="code" aria-describedby="code" placeholder="Enter Code ID">
                         </div>
