@@ -50,6 +50,9 @@
                             @endif
                         @else
                              <li class="nav-item">
+                                <a class="nav-link" href="{{ route('member.index') }}">Member</a>
+                            </li>
+                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('device.index') }}">Device</a>
                             </li>
                             <li class="nav-item dropdown">
