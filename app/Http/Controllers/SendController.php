@@ -15,7 +15,7 @@ class SendController extends Controller
         $message = request('message');
         $code = request('code');
 
-        $rand = randString();
+        $rand = randString(15);
 
         $user = Member::where('name', strtolower($session))->where('code', $code)->first();
 
@@ -56,7 +56,7 @@ class SendController extends Controller
         }
 
         $message = $message . "
-kodeRef: $code-$rand
+kodeRef: $rand
 ";
 
         $send = [
@@ -82,16 +82,16 @@ kodeRef: $code-$rand
             ];
         }
         if(property_exists($res, 'error')){
-            $sendGagal = [
-                'jid' => "6282396151291@s.whatsapp.net",
-                'type' => "number",
-                'message' => [
-                    'text' => "Oi ada nomor tidak connect $number_server->no_hp",
-                ],
-            ];
+            // $sendGagal = [
+            //     'jid' => "6282396151291@s.whatsapp.net",
+            //     'type' => "number",
+            //     'message' => [
+            //         'text' => "Oi ada nomor tidak connect $number_server->no_hp",
+            //     ],
+            // ];
             
             $number_server = Device::inRandomOrder()->where('id', '!=', $number_server->id)->first();
-            Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $sendGagal);
+            // Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $sendGagal);
 
             $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $send);
             $res = json_decode($response->body());

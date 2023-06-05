@@ -22,6 +22,16 @@ class DeviceController extends Controller
         return view('device.add', compact('devices'));
     }
 
+    public function delete(Device $device)
+    {
+        $cr = $device->delete();
+        if($cr){
+            return redirect(route('device.index'))->with('success', 'Berhasil');
+        }else{
+            return redirect(route('device.index'))->with('error', 'Gagal');
+        }
+    }
+
     public function scan(Device $device)
     {
         $response = Http::post(env('URL_WA_SERVER').'/sessions/add', ['sessionId' => $device->session]);

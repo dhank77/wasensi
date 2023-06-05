@@ -33,6 +33,7 @@
                                     <td>{{ get_status($device->session) }}</td>
                                     <td>
                                         <a href="{{ route('device.scan', $device->id) }}" class="btn btn-sm btn-success">Scan</a>
+                                        <a onclick="return confirm('anda yakin?')" href="{{ route('device.delete', $device->id) }}" class="btn btn-sm btn-danger">Delete</a>
                                     </td>
                                 </tr>
                             @endforeach

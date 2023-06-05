@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/add', [DeviceController::class, 'add'])->name('device.add');
         Route::post('/store', [DeviceController::class, 'store'])->name('device.store');
         Route::get('/scan/{device}', [DeviceController::class, 'scan'])->name('device.scan');
+        Route::get('/delete/{device}', [DeviceController::class, 'delete'])->name('device.delete');
     });
     Route::prefix('member')->group(function(){
         Route::get('/', [MemberController::class, 'index'])->name('member.index');
