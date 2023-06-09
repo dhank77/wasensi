@@ -144,6 +144,7 @@ export async function createSession(options: createSessionOptions) {
   const handleConnectionUpdate = SSE ? handleSSEConnectionUpdate : handleNormalConnectionUpdate;
   const { state, saveCreds } = await useSession(sessionId);
   const socket = makeWASocket({
+    version: [2,2323,4],
     printQRInTerminal: true,
     browser: Browsers.ubuntu('Chrome'),
     generateHighQualityLinkPreview: true,
