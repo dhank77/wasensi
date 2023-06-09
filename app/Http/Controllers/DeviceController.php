@@ -34,14 +34,16 @@ class DeviceController extends Controller
 
     public function scan(Device $device)
     {
-        $response = Http::post(env('URL_WA_SERVER').'/sessions/add', ['sessionId' => $device->session]);
+        $newSession = randString(5) . rand(00001,9999);
+        $device->update(['session' => $newSession]);
+        $response = Http::post(env('URL_WA_SERVER').'/sessions/add', ['sessionId' => $newSession]);
         $res = json_decode($response->getBody());
 
         if(property_exists($res, 'error') && $res->error == "Session already exists"){
-            $hapus = Http::delete(env('URL_WA_SERVER').'/sessions/'.$device->session);
+            $hapus = Http::delete(env('URL_WA_SERVER').'/sessions/'.$newSession);
             $res = json_decode($hapus->getBody());
             
-            $newsessionID = $device->session;
+            $newsessionID = randString(5) . rand(00001,9999);
             sleep(1);
             $response = Http::post(env('URL_WA_SERVER').'/sessions/add', ['sessionId' => $newsessionID]);
             $res = json_decode($response->getBody());
@@ -57,8 +59,9 @@ class DeviceController extends Controller
     {
         $data = request()->validate([
             'no_hp' => 'required',
-            'session' => 'required',
         ]);
+
+        $data['session'] = randString(5) . rand(00001,9999);;
 
         $id = request('id');
 

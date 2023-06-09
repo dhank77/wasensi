@@ -16,10 +16,6 @@
                             <label for="no_hp">Nomor Handphone</label>
                             <input type="number" class="form-control" id="no_hp" name="no_hp" aria-describedby="no_hp" placeholder="Enter No Handphone">
                         </div>
-                        <div class="form-group mb-4">
-                            <label for="session">Session ID</label>
-                            <input type="text" class="form-control" id="session" name="session" aria-describedby="session" placeholder="Enter Session ID">
-                        </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>

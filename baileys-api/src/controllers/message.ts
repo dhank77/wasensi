@@ -17,7 +17,7 @@ export const list: RequestHandler = async (req, res) => {
         skip: cursor ? 1 : 0,
         where: { sessionId },
       })
-    ).map((m) => serializePrisma(m));
+    ).map((m: any) => serializePrisma(m));
 
     res.status(200).json({
       data: messages,

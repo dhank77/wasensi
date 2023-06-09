@@ -13,7 +13,7 @@ export const list: RequestHandler = async (req, res) => {
         skip: cursor ? 1 : 0,
         where: { sessionId },
       })
-    ).map((c) => serializePrisma(c));
+    ).map((c: any) => serializePrisma(c));
 
     res.status(200).json({
       data: chats,
@@ -39,7 +39,7 @@ export const find: RequestHandler = async (req, res) => {
         where: { sessionId, remoteJid: jid },
         orderBy: { messageTimestamp: 'desc' },
       })
-    ).map((m) => serializePrisma(m));
+    ).map((m: any) => serializePrisma(m));
 
     res.status(200).json({
       data: messages,
