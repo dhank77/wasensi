@@ -67,42 +67,70 @@ kodeRef: $rand
             ],
         ];
 
-        $number_server = Device::inRandomOrder()->first();
-
-        $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $send);
-
-        $res = json_decode($response->body());
-
-        $try = 1;
-        if(property_exists($res, 'key')){
-            return [
-                'status' => true,
-                'number' => $number_server,
-                'try' => $try,
-            ];
-        }
-        if(property_exists($res, 'error')){
-            // $sendGagal = [
-            //     'jid' => "6282396151291@s.whatsapp.net",
-            //     'type' => "number",
-            //     'message' => [
-            //         'text' => "Oi ada nomor tidak connect $number_server->no_hp",
-            //     ],
-            // ];
-            
-            $number_server = Device::inRandomOrder()->where('id', '!=', $number_server->id)->first();
-            // Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $sendGagal);
-
+        if($user->no_request == ''){
+            $number_server = Device::inRandomOrder()->first();
+    
             $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $send);
+    
             $res = json_decode($response->body());
-
+    
+            $try = 1;
             if(property_exists($res, 'key')){
-                $try += 1;
                 return [
                     'status' => true,
                     'number' => $number_server,
                     'try' => $try,
                 ];
+            }
+            if(property_exists($res, 'error')){
+                // $sendGagal = [
+                //     'jid' => "6282396151291@s.whatsapp.net",
+                //     'type' => "number",
+                //     'message' => [
+                //         'text' => "Oi ada nomor tidak connect $number_server->no_hp",
+                //     ],
+                // ];
+                
+                $number_server = Device::inRandomOrder()->where('id', '!=', $number_server->id)->first();
+                // Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $sendGagal);
+    
+                $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $send);
+                $res = json_decode($response->body());
+    
+                if(property_exists($res, 'key')){
+                    $try += 1;
+                    return [
+                        'status' => true,
+                        'number' => $number_server,
+                        'try' => $try,
+                    ];
+                }
+            }
+        }else{
+            $number_server = Device::where('no_hp', $user->no_request)->first();
+            $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $send);
+            $res = json_decode($response->body());
+            $try = 1;
+            if(property_exists($res, 'key')){
+                return [
+                    'status' => true,
+                    'number' => $number_server,
+                    'try' => $try,
+                ];
+            }
+
+            if(property_exists($res, 'error')){
+                $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $send);
+                $res = json_decode($response->body());
+    
+                if(property_exists($res, 'key')){
+                    $try += 1;
+                    return [
+                        'status' => true,
+                        'number' => $number_server,
+                        'try' => $try,
+                    ];
+                }
             }
         }
 

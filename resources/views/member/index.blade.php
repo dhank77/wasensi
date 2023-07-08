@@ -20,6 +20,7 @@
                                 <th scope="col">Nama</th>
                                 <th scope="col">Code</th>
                                 <th scope="col">No Penanggung Jawab</th>
+                                <th scope="col">No Request</th>
                                 <th scope="col">Notif PJ</th>
                                 <th scope="col">Expired Date</th>
                                 <th scope="col">Opsi</th>
@@ -32,6 +33,7 @@
                                     <td>{{ ucwords($member->name) }}</td>
                                     <td>{{ $member->code }}</td>
                                     <td>{{ $member->no_pj }}</td>
+                                    <td>{{ $member->no_request }}</td>
                                     <td>{{ $member->notif_pj }}</td>
                                     <td>{{ ($member->expired_date) }}</td>
                                     <td>

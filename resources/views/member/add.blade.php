@@ -26,6 +26,10 @@
                             <input type="number" class="form-control" value="{{ $member->notif_pj }}" id="notif_pj" name="notif_pj" aria-describedby="notif_pj" placeholder="Enter Status">
                         </div>
                         <div class="form-group mb-4">
+                            <label for="no_request">Nomor Request</label>
+                            <input type="number" class="form-control" value="{{ $member->no_request }}" id="no_request" name="no_request" aria-describedby="no_request" placeholder="Enter No Request">
+                        </div>
+                        <div class="form-group mb-4">
                             <label for="code">Code ID</label>
                             <input type="text" class="form-control" value="{{ $member->code }}" id="code" name="code" aria-describedby="code" placeholder="Enter Code ID">
                         </div>

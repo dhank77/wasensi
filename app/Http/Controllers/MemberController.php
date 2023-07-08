@@ -33,6 +33,7 @@ class MemberController extends Controller
             'code' => 'required',
             'expired_date' => 'required',
             'no_pj' => 'nullable',
+            'no_request' => 'nullable',
             'notif_pj' => 'nullable',
         ]);
 
