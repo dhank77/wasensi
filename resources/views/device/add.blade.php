@@ -16,6 +16,13 @@
                             <label for="no_hp">Nomor Handphone</label>
                             <input type="number" class="form-control" id="no_hp" name="no_hp" aria-describedby="no_hp" placeholder="Enter No Handphone">
                         </div>
+                        <div class="form-group mb-4">
+                            <label for="no_hp">Training</label>
+                            <select name="is_training" id="is_training" class="form-control">
+                                <option value="0">Tidak</option>
+                                <option value="1">Ya</option>
+                            </select>
+                        </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>

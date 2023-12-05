@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Device;
 use App\Models\Member;
+use App\Models\Pesan;
 use Illuminate\Support\Facades\Http;
 
 class SendController extends Controller
@@ -44,10 +45,11 @@ class SendController extends Controller
                 ];
                 $user->update(['notif_pj' => 1]);
                 $number_server = Device::inRandomOrder()->first();
+                $number_server = numberTraning($number_server);
+
                 $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $sendPj);
                 $res = json_decode($response->body());
             }
-
 
             return [
                 'status' => false,
@@ -69,6 +71,7 @@ kodeRef: $rand
 
         if($user->no_request == ''){
             $number_server = Device::inRandomOrder()->first();
+            $number_server = numberTraning($number_server);
     
             $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $send);
     
@@ -76,6 +79,12 @@ kodeRef: $rand
     
             $try = 1;
             if(property_exists($res, 'key')){
+                Pesan::create([
+                    'from' => $number_server->no_hp,
+                    'to' => $receiver,
+                    'isi' => $message,
+                    'code' => $code,
+                ]);
                 return [
                     'status' => true,
                     'number' => $number_server,
@@ -83,22 +92,21 @@ kodeRef: $rand
                 ];
             }
             if(property_exists($res, 'error')){
-                // $sendGagal = [
-                //     'jid' => "6282396151291@s.whatsapp.net",
-                //     'type' => "number",
-                //     'message' => [
-                //         'text' => "Oi ada nomor tidak connect $number_server->no_hp",
-                //     ],
-                // ];
                 
                 $number_server = Device::inRandomOrder()->where('id', '!=', $number_server->id)->first();
-                // Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $sendGagal);
+                $number_server = numberTraning($number_server);
     
                 $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $send);
                 $res = json_decode($response->body());
     
                 if(property_exists($res, 'key')){
                     $try += 1;
+                    Pesan::create([
+                        'from' => $number_server->no_hp,
+                        'to' => $receiver,
+                        'isi' => $message,
+                        'code' => $code,
+                    ]);
                     return [
                         'status' => true,
                         'number' => $number_server,
@@ -108,10 +116,18 @@ kodeRef: $rand
             }
         }else{
             $number_server = Device::where('no_hp', $user->no_request)->first();
+            $number_server = numberTraning($number_server);
+
             $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $send);
             $res = json_decode($response->body());
             $try = 1;
             if(property_exists($res, 'key')){
+                Pesan::create([
+                    'from' => $number_server->no_hp,
+                    'to' => $receiver,
+                    'isi' => $message,
+                    'code' => $code,
+                ]);
                 return [
                     'status' => true,
                     'number' => $number_server,
@@ -125,6 +141,12 @@ kodeRef: $rand
     
                 if(property_exists($res, 'key')){
                     $try += 1;
+                    Pesan::create([
+                        'from' => $number_server->no_hp,
+                        'to' => $receiver,
+                        'isi' => $message,
+                        'code' => $code,
+                    ]);
                     return [
                         'status' => true,
                         'number' => $number_server,

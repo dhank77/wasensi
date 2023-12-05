@@ -59,9 +59,10 @@ class DeviceController extends Controller
     {
         $data = request()->validate([
             'no_hp' => 'required',
+            'is_training' => 'required'
         ]);
 
-        $data['session'] = randString(5) . rand(00001,9999);;
+        $data['session'] = randString(5) . rand(00001,9999);
 
         $id = request('id');
 

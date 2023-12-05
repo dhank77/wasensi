@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Device;
+use App\Models\Pesan;
+
 function format62($number)
 {
     // kadang ada penulisan no hp 0811 239 345
@@ -30,4 +33,28 @@ function randString($length = 10) {
         $randomString .= $characters[random_int(0, $charactersLength - 1)];
     }
     return $randomString;
+}
+
+function numberTraning($number_server) {
+
+    if($number_server->is_training == 1){
+        $tanggal_saat_ini = date("Y-m-d");
+        $tanggal_tambah = date("Y-m-d", strtotime($number_server->created_at));
+
+        $jumlah_pesan_terkirim = Pesan::where('from', $number_server->no_hp)->whereDate('created_at', $tanggal_saat_ini)->count();
+        $selisih_hari = floor((strtotime($tanggal_saat_ini) - strtotime($tanggal_tambah)) / (60 * 60 * 24));
+        $batas_maksimal_pesan = $selisih_hari + 1; 
+
+        if($batas_maksimal_pesan >= 60){
+            $number_server->update(['is_training' => false]);
+        }
+
+        if ($jumlah_pesan_terkirim > $batas_maksimal_pesan) {
+            $number_server = Device::where('id', '!=', $number_server->id)
+                                    ->inRandomOrder()
+                                    ->first();
+        }
+    }
+
+    return $number_server;
 }
