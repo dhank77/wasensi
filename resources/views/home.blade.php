@@ -58,8 +58,8 @@
                                     @php
                                        $pesan = get_pesan_member($value->code);
                                     @endphp
-                                    <td>{{ $pesan['hari_ini'] }}</td>
-                                    <td>{{ $pesan['total'] }}</td>
+                                    <td>{{ number_indo($pesan['hari_ini']) }}</td>
+                                    <td>{{ number_indo($pesan['total']) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

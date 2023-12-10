@@ -69,7 +69,7 @@ function get_pesan_member($code)
     $pesan = Pesan::where('code', $code);
     
     return [
-        'hari_ini' => $pesan->whereDate('created_at', date("Y-m-d"))->count(),
         'total' => $pesan->count(),
+        'hari_ini' => $pesan->whereDate('created_at', date("Y-m-d"))->count(),
     ];
 }
