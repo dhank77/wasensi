@@ -15,6 +15,7 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @stack('css')
 </head>
 <body>
     <div id="app">
@@ -50,6 +51,9 @@
                             @endif
                         @else
                              <li class="nav-item">
+                                <a class="nav-link" href="{{ route('home') }}">Dashboard</a>
+                            </li>
+                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('member.index') }}">Member</a>
                             </li>
                              <li class="nav-item">
@@ -82,5 +86,6 @@
             @yield('content')
         </main>
     </div>
+    @stack('js')
 </body>
 </html>

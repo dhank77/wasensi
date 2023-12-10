@@ -3,6 +3,11 @@
 use App\Models\Device;
 use App\Models\Pesan;
 
+function number_indo($num, $des = 0)
+{
+    return number_format($num, $des, ',', '.');
+}
+
 function format62($number)
 {
     // kadang ada penulisan no hp 0811 239 345
@@ -57,4 +62,14 @@ function numberTraning($number_server) {
     }
 
     return $number_server;
+}
+
+function get_pesan_member($code)
+{
+    $pesan = Pesan::where('code', $code);
+    
+    return [
+        'hari_ini' => $pesan->whereDate('created_at', date("Y-m-d"))->count(),
+        'total' => $pesan->count(),
+    ];
 }

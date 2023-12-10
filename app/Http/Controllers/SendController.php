@@ -84,6 +84,7 @@ kodeRef: $rand
                     'to' => $receiver,
                     'isi' => $message,
                     'code' => $code,
+                    'kodeRef' => $rand,
                 ]);
                 return [
                     'status' => true,
@@ -106,6 +107,7 @@ kodeRef: $rand
                         'to' => $receiver,
                         'isi' => $message,
                         'code' => $code,
+                        'kodeRef' => $rand,
                     ]);
                     return [
                         'status' => true,
@@ -127,6 +129,7 @@ kodeRef: $rand
                     'to' => $receiver,
                     'isi' => $message,
                     'code' => $code,
+                    'kodeRef' => $rand,
                 ]);
                 return [
                     'status' => true,
@@ -146,6 +149,7 @@ kodeRef: $rand
                         'to' => $receiver,
                         'isi' => $message,
                         'code' => $code,
+                        'kodeRef' => $rand,
                     ]);
                     return [
                         'status' => true,
