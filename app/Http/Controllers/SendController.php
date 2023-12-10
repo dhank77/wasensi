@@ -36,11 +36,13 @@ class SendController extends Controller
 
         if(strtotime('now') > strtotime($user->expired_date)){
             if($user->no_pj != "" && $user->notif_pj == 0){
+                $name = ucwords($user->name);
+                $tgl = tanggal_indo($user->expired_date);
                 $sendPj = [
                     'jid' => format62($user->no_pj) . "@s.whatsapp.net",
                     'type' => "number",
                     'message' => [
-                        'text' => "Mohon maaf waktu berlangganan WA-Server anda telah habis!",
+                        'text' => "Mohon maaf waktu berlangganan WA-Server atas nama $name telah expired pada tanggal $tgl, Silahkan lakukan perpanjangan untuk mengirimkan pesan lagi!",
                     ],
                 ];
                 $user->update(['notif_pj' => 1]);
