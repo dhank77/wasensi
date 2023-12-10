@@ -3,26 +3,26 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-lg-12 d-flex justify-content-between">
-            <div class="card text-white bg-primary mb-3" style="width: 18rem;">
+        <div class="row d-flex justify-content-between">
+            <div class="col-sm-12 card text-white bg-primary mb-3" style="width: 18rem; margin: auto;">
                 <div class="card-header text-center">Pesan Terkirim Hari Ini</div> 
                 <div class="card-body">
                     <h5 style="font-size:50px;" class="card-title text-center">{{ number_indo($pesanHariIni) }}</h5>
                 </div>
             </div>
-            <div class="card text-white bg-primary mb-3" style="width: 18rem;">
+            <div class="col-sm-12 card text-white bg-primary mb-3" style="width: 18rem; margin: auto;">
                 <div class="card-header text-center">Total Pesan Terkirim</div> 
                 <div class="card-body">
                     <h5 style="font-size:50px;" class="card-title text-center">{{ number_indo($totalPesan) }}</h5>
                 </div>
             </div>
-            <div class="card text-white bg-primary mb-3" style="width: 18rem;">
+            <div class="col-sm-12 card text-white bg-primary mb-3" style="width: 18rem; margin: auto;">
                 <div class="card-header text-center">Jumlah Member Aktif</div> 
                 <div class="card-body">
                     <h5 style="font-size:50px;" class="card-title text-center">{{ number_indo($memberAktif) }}</h5>
                 </div>
             </div>
-            <div class="card text-white bg-primary mb-3" style="width: 18rem;">
+            <div class="col-sm-12 card text-white bg-primary mb-3" style="width: 18rem; margin: auto;">
                 <div class="card-header text-center">Total Member</div> 
                 <div class="card-body">
                     <h5 style="font-size:50px;" class="card-title text-center">{{ number_indo($totalMember) }}</h5>
@@ -41,29 +41,31 @@
                     @endif
 
                     <br>
-                    <table id="table" class="table">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Member</th>
-                                <th>Pesan Hari Ini</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($member->where("expired_date", ">=", date("Y-m-d")); as $key => $value)
+                    <div class="table-responsive">
+                        <table id="table" class="table">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ ucwords($value->name) }}</td>
-                                    @php
-                                       $pesan = get_pesan_member($value->code);
-                                    @endphp
-                                    <td>{{ number_indo($pesan['hari_ini']) }}</td>
-                                    <td>{{ number_indo($pesan['total']) }}</td>
+                                    <th>No</th>
+                                    <th>Member</th>
+                                    <th>Pesan Hari Ini</th>
+                                    <th>Total</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach($member->where("expired_date", ">=", date("Y-m-d")); as $key => $value)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ ucwords($value->name) }}</td>
+                                        @php
+                                        $pesan = get_pesan_member($value->code);
+                                        @endphp
+                                        <td>{{ number_indo($pesan['hari_ini']) }}</td>
+                                        <td>{{ number_indo($pesan['total']) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
