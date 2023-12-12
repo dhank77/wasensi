@@ -54,7 +54,17 @@ function numberTraning($number_server) {
             $number_server->update(['is_training' => false]);
         }
 
-        if ($jumlah_pesan_terkirim > $batas_maksimal_pesan) {
+        $menit_beda = false;
+        $pesanTerbaru = Pesan::where('from', $number_server->no_hp)->whereDate('created_at', $tanggal_saat_ini)->latest()->value('created_at');
+        $pesanTerbaru = strtotime($pesanTerbaru);
+        $waktuSekarang = strtotime('now');
+
+        $perbedaan_menit = ($waktuSekarang - $pesanTerbaru) / 60;
+        if($perbedaan_menit < 120){
+            $menit_beda = true;
+        }
+
+        if ($jumlah_pesan_terkirim > $batas_maksimal_pesan || $menit_beda == true) {
             $number_server = Device::where('id', '!=', $number_server->id)
                                     ->inRandomOrder()
                                     ->first();
