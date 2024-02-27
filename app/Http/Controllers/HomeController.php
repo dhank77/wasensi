@@ -25,14 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $pesan = Pesan::get();
-        $member = Member::get();
-
         $pesanHariIni = Pesan::whereDate("created_at", "=", date("Y-m-d"))->count();
-        $totalPesan = $pesan->count();
+        $totalPesan = Pesan::count();
         
-        $memberAktif = $member->where("expired_date", ">=", date("Y-m-d"))->count();
-        $totalMember = $member->count();
+        $memberAktif = Member::where("expired_date", ">=", date("Y-m-d"))->count();
+        $totalMember = Member::count();
+        
+        $member = Member::get();
 
         return view('home', compact('pesanHariIni', 'totalPesan', 'memberAktif', 'totalMember', 'member'));
     }
