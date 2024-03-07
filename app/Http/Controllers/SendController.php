@@ -88,6 +88,7 @@ kodeRef: $rand
                     'code' => $code,
                     'kodeRef' => $rand,
                 ]);
+                sleep(15);
                 return [
                     'status' => true,
                     'number' => $number_server,
@@ -111,6 +112,7 @@ kodeRef: $rand
                         'code' => $code,
                         'kodeRef' => $rand,
                     ]);
+                    sleep(15);
                     return [
                         'status' => true,
                         'number' => $number_server,
@@ -133,6 +135,7 @@ kodeRef: $rand
                     'code' => $code,
                     'kodeRef' => $rand,
                 ]);
+                sleep(15);
                 return [
                     'status' => true,
                     'number' => $number_server,
@@ -153,6 +156,7 @@ kodeRef: $rand
                         'code' => $code,
                         'kodeRef' => $rand,
                     ]);
+                    sleep(15);
                     return [
                         'status' => true,
                         'number' => $number_server,
