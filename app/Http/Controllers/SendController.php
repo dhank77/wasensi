@@ -41,6 +41,13 @@ class SendController extends Controller
             ];
         }
 
+        $message = str_replace([".co.id", ".go.id", ".com", ".id", ".sch.id"], "", $message);
+        $pattern = '/(?:https?:\/\/)?([^\s\/]+)(?=\s*$|\s*[:;,.!?])/';
+        $message = preg_replace_callback($pattern, function($matches) {
+            $domain_without_dots = str_replace('.', '', $matches[1]);
+            return $domain_without_dots;
+        }, $message);
+
         $message = $message . "
 kodeRef: $rand
 ";
