@@ -62,6 +62,14 @@ kodeRef: $rand
 
         $response = curl_exec($curl);
 
+        Pesan::create([
+            'from' => $number_server,
+            'to' => $receiver,
+            'isi' => $message,
+            'code' => $code,
+        ]);
+        sleep(5);
+
         curl_close($curl);
         return $response;
     }
