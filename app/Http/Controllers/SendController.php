@@ -20,22 +20,79 @@ class SendController extends Controller
 
         $user = Member::where('name', strtolower($session))->where('code', $code)->first();
 
-        if(!$user){
+        if (!$user) {
             return [
                 'status' => false,
-                'messages' => 'User not exist'                
+                'messages' => 'User not exist'
             ];
         }
 
-        if(!str_contains(strtolower($message), strtolower($session))){
+        if (!str_contains(strtolower($message), strtolower($session))) {
             return [
                 'status' => false,
-                'messages' => 'User not found'                
+                'messages' => 'User not found'
             ];
         }
 
-        if(strtotime('now') > strtotime($user->expired_date)){
-            if($user->no_pj != "" && $user->notif_pj == 0){
+        if (strtotime('now') > strtotime($user->expired_date)) {
+            return [
+                'status' => false,
+                'messages' => 'Member is expired'
+            ];
+        }
+
+        $message = $message . "
+kodeRef: $rand
+";
+        $number_server = Device::inRandomOrder()->value('no_hp');
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://wag.jamkerja.id/send-message',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array('api_key' => 'pe4iBE61GyZyRYY7pzmJLzvGyPdTN9', 'sender' => $number_server, 'message' => $message, 'number' => format62($receiver)),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        return $response;
+    }
+
+    public function index_old()
+    {
+        $session = request('name');
+        $receiver = request('receiver');
+        $message = request('message');
+        $code = request('code');
+
+        $rand = randString(15);
+
+        $user = Member::where('name', strtolower($session))->where('code', $code)->first();
+
+        if (!$user) {
+            return [
+                'status' => false,
+                'messages' => 'User not exist'
+            ];
+        }
+
+        if (!str_contains(strtolower($message), strtolower($session))) {
+            return [
+                'status' => false,
+                'messages' => 'User not found'
+            ];
+        }
+
+        if (strtotime('now') > strtotime($user->expired_date)) {
+            if ($user->no_pj != "" && $user->notif_pj == 0) {
                 $name = ucwords($user->name);
                 $tgl = tanggal_indo($user->expired_date);
                 $sendPj = [
@@ -55,7 +112,7 @@ class SendController extends Controller
 
             return [
                 'status' => false,
-                'messages' => 'Member is expired'                
+                'messages' => 'Member is expired'
             ];
         }
 
@@ -71,16 +128,16 @@ kodeRef: $rand
             ],
         ];
 
-        if($user->no_request == ''){
+        if ($user->no_request == '') {
             $number_server = Device::inRandomOrder()->first();
             $number_server = numberTraning($number_server);
-    
+
             $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $send);
-    
+
             $res = json_decode($response->body());
-    
+
             $try = 1;
-            if(property_exists($res, 'key')){
+            if (property_exists($res, 'key')) {
                 Pesan::create([
                     'from' => $number_server->no_hp,
                     'to' => $receiver,
@@ -95,15 +152,15 @@ kodeRef: $rand
                     'try' => $try,
                 ];
             }
-            if(property_exists($res, 'error')){
-                
+            if (property_exists($res, 'error')) {
+
                 $number_server = Device::inRandomOrder()->where('id', '!=', $number_server->id)->first();
                 $number_server = numberTraning($number_server);
-    
+
                 $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $send);
                 $res = json_decode($response->body());
-    
-                if(property_exists($res, 'key')){
+
+                if (property_exists($res, 'key')) {
                     $try += 1;
                     Pesan::create([
                         'from' => $number_server->no_hp,
@@ -120,14 +177,14 @@ kodeRef: $rand
                     ];
                 }
             }
-        }else{
+        } else {
             $number_server = Device::where('no_hp', $user->no_request)->first();
             $number_server = numberTraning($number_server);
 
             $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $send);
             $res = json_decode($response->body());
             $try = 1;
-            if(property_exists($res, 'key')){
+            if (property_exists($res, 'key')) {
                 Pesan::create([
                     'from' => $number_server->no_hp,
                     'to' => $receiver,
@@ -143,11 +200,11 @@ kodeRef: $rand
                 ];
             }
 
-            if(property_exists($res, 'error')){
+            if (property_exists($res, 'error')) {
                 $response = Http::post(env('URL_WA_SERVER') . "/$number_server->session/messages/send", $send);
                 $res = json_decode($response->body());
-    
-                if(property_exists($res, 'key')){
+
+                if (property_exists($res, 'key')) {
                     $try += 1;
                     Pesan::create([
                         'from' => $number_server->no_hp,

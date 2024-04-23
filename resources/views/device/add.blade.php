@@ -12,6 +12,7 @@
                 <div class="card-body">
                     <form action="{{ route('device.store') }}" method="POST">
                         @csrf
+                        <input type="hidden" name="scan" id="scan" value="{{ $scan }}">
                         <div class="form-group mb-4">
                             <label for="no_hp">Nomor Handphone</label>
                             <input type="number" class="form-control" id="no_hp" name="no_hp" aria-describedby="no_hp" placeholder="Enter No Handphone">

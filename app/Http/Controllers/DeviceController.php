@@ -18,8 +18,8 @@ class DeviceController extends Controller
     public function add()
     {
         $devices = new Device();
-
-        return view('device.add', compact('devices'));
+        $scan = request('scan');
+        return view('device.add', compact('devices', 'scan'));
     }
 
     public function delete(Device $device)
@@ -65,11 +65,19 @@ class DeviceController extends Controller
         $data['session'] = randString(5) . rand(00001,9999);
 
         $id = request('id');
+        $scan = request('scan');
 
         $cr = Device::updateOrCreate(['id' => $id], $data);
 
         $id = $id ?? $cr->id;
 
+        if($scan == "false"){
+            if($cr){
+                return redirect(route('device.index'))->with('success', 'Berhasil');
+            }else{
+                return redirect(route('device.index'))->with('error', 'Gagal');
+            }
+        }
         if($cr){
             return redirect(route('device.scan', $id))->with('success', 'Berhasil');
         }else{

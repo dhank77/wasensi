@@ -9,6 +9,7 @@
                     <span>Daftar Device</span>
                     <div class="float-right">
                         <a href="{{ route('device.add') }}" class="btn btn-primary">Tambah</a>
+                        <a href="{{ route('device.add') }}?scan=false" class="btn btn-primary">Tambah Tanpa Scan</a>
                     </div>
                 </div>
 
@@ -33,7 +34,7 @@
                                     <th scope="row">{{ $key + 1 }}</th>
                                     <td>{{ $device->no_hp }}</td>
                                     <td>{{ $device->session }}</td>
-                                    <td>{{ get_status($device->session) }}</td>
+                                    <td>{{ get_status($device->session, false) }}</td>
                                     <td>
                                         @if($device->is_training == 0)
                                         <div class="btn btn-sm btn-danger"><b>Tidak</b></div>
