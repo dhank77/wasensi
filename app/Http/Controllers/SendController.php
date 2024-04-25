@@ -49,7 +49,7 @@ class SendController extends Controller
         }, $message);
 
         $message = $message . "
-kodeRef: $rand
+~$rand
 ";
         $number_server = Device::inRandomOrder()->value('no_hp');
 
